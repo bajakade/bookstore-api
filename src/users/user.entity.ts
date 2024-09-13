@@ -1,15 +1,40 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {
+    BeforeInsert,
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    Unique,
+    UpdateDateColumn
+} from 'typeorm';
+
+import { Exclude } from 'class-transformer';
+import { encryptText } from 'src/utils';
 
 @Entity()
+@Unique(['email'])
 export class User {
-    @PrimaryGeneratedColumn() id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     name: string;
     
-    @Column()
+    @Column({unique: true})
     email: string;
     
     @Column()
+    @Exclude()
     password: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date
+
+    @BeforeInsert()
+    async encryptPassword() {
+        this.password = await encryptText(this.password);
+    }
 }
