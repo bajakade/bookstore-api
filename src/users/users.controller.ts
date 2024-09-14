@@ -27,7 +27,7 @@ import { UsersService } from "./users.service";
         }
     },
     query: {
-        exclude: [],
+        exclude: ['password'],
         alwaysPaginate: true,
         limit: 10
     },
