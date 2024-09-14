@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcrypt';
 
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
-
 import { AuthLoginDto } from "./dtos/auth-login.dto";
+import { Injectable } from "@nestjs/common";
+import {JwtPayload} from './strategies/jwt-strategy'
 import {JwtService} from '@nestjs/jwt';
 import { User } from 'src/users/user.entity';
 import { UsersService } from "src/users/users.service";
@@ -35,12 +35,12 @@ export class AuthService {
        return null;
     }
 
-    async login({id, email}: User) {
-        const payload = { username: email, sub: id };
+    async signIn({id, email}: User) {
+        const payload: JwtPayload = { username: email, sub: id };
         return {
             id,
             email,
             accessToken: this.jwtService.sign(payload),
         };
-      }
+    }
 }

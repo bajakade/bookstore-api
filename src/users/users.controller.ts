@@ -7,10 +7,11 @@ import {
     ParsedRequest
 } from '@dataui/crud';
 
-import { Controller } from "@nestjs/common";
+import { Controller, UseGuards } from "@nestjs/common";
 import { CreateUserDto } from './dtos/create-user.dto';
 import { User } from "./user.entity";
 import { UsersService } from "./users.service";
+import {JwtAuthGuard} from '../auth/guards/auth-jwt.guard'
 
 @Crud({
     model: {
@@ -40,6 +41,7 @@ export class UserController implements CrudController<User> {
         return this;
     }
 
+    @UseGuards(JwtAuthGuard)
     @Override()
     createOne(
         @ParsedRequest() request: CrudRequest,
