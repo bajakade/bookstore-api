@@ -40,7 +40,10 @@ export class AuthService {
         return {
             id,
             email,
-            accessToken: this.jwtService.sign(payload, {secret: process.env.JWT_SECRET}),
+            accessToken: this.jwtService
+                .sign( payload, {
+                    secret: process.env.JWT_SECRET
+                }),
         };
     }
 }

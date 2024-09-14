@@ -1,6 +1,7 @@
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {AuthModule} from './auth/auth.module'
+import {AuthorsModule} from './authors/authors.module'
 import {ConfigModule} from '@nestjs/config'
 import {JwtModule} from '@nestjs/jwt'
 import { Module } from '@nestjs/common';
@@ -10,6 +11,8 @@ import config from '../config';
 
 @Module({
   imports: [
+    AuthModule,
+    AuthorsModule,
     UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
@@ -26,7 +29,6 @@ import config from '../config';
       secret: process.env.JWT_SECRET || 'secret',
       signOptions: {expiresIn: '60s'}
     }),
-    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
